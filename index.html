@@ -410,7 +410,7 @@
   <div class="wrap">
     <div class="privacy">
       <h2>Your sound stays on your Mac</h2>
-      <p>SoundGate has no account, no analytics and no servers. All audio processing happens on your Mac in real time — nothing is recorded, stored or uploaded.</p>
+      <p>SoundGate has no account, no analytics and no servers. All audio processing happens on your Mac in real time — nothing is recorded, stored or uploaded. Its only network request is a daily check for new versions on GitHub, which you can turn off.</p>
     </div>
   </div>
 </section>
@@ -424,6 +424,7 @@
     <details><summary>Does it work with my headphones?</summary><p>Any headphones get spatial audio's speakers-in-front effect. Head tracking needs AirPods (3rd generation or later), AirPods Pro, AirPods Max or supported Beats. If your AirPods already use Apple's “Spatialize Stereo”, turn that off in Control Center so the sound isn't processed twice.</p></details>
     <details><summary>My monitor's volume keys don't do anything on a Mac. Will this fix it?</summary><p>Usually, yes. Most monitors let SoundGate change their speaker volume directly over the display cable (DDC). If yours doesn't, SoundGate tells you so in the app.</p></details>
     <details><summary>Why does it need System Audio Recording?</summary><p>That's the macOS permission that lets an app process other apps' sound — needed for per-app volume, the EQ and spatial audio. SoundGate only processes the sound live; nothing is recorded.</p></details>
+    <details><summary>How does SoundGate stay up to date?</summary><p>It checks this site's releases about once a day and lets you know when a new version is out — install it with one click from the menu bar. Turn on <b>Install updates automatically</b> to have SoundGate download and install updates itself (macOS asks for your password to update an app in Applications). Every update is checked to be signed by SoundGate's developer and notarized by Apple before it's installed. You can switch off update checks entirely under <b>Devices &amp; Settings → About</b>.</p></details>
     <details><summary>How do I uninstall it?</summary><p>Quit SoundGate from its menu, then drag <b>SoundGate</b> from Applications to the Trash. To also remove its settings, run <code>defaults delete com.markhydar.SoundGate</code> in Terminal.</p></details>
   </div>
 </section>
