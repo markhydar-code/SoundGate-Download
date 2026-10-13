@@ -471,7 +471,7 @@
       const res = await fetch(`https://abacus.jasoncameron.dev/${action}/markhydar-soundgate/visits`);
       if (res.ok) {
         const { value } = await res.json();
-        if (value >= 0) parts.push(`👁 ${fmt(value)} visits`);
+        if (value >= 0) parts.push(`👁 ${fmt(value)} visit${value === 1 ? "" : "s"}`);
         if (action === "hit") { try { localStorage.setItem("sg-visit-day", today); } catch (_) {} }
       }
     } catch (_) {}
@@ -480,7 +480,7 @@
       if (res.ok) {
         const releases = await res.json();
         const total = releases.reduce((sum, r) => sum + r.assets.reduce((a, x) => a + x.download_count, 0), 0);
-        parts.push(`⬇ ${fmt(total)} downloads`);
+        parts.push(`⬇ ${fmt(total)} download${total === 1 ? "" : "s"}`);
       }
     } catch (_) {}
     if (parts.length) {
