@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoundGate for Mac</title>
+<meta name="description" content="SoundGate gives you control over your Mac's sound: route audio to your monitor, set volume per app, a hearing-test personal EQ, and spatial audio with AirPods head tracking.">
+<meta property="og:title" content="SoundGate for Mac">
+<meta property="og:description" content="Route sound, mix per app, EQ with a hearing test, and spatial audio for headphones.">
+<meta property="og:image" content="assets/mixer.png">
+<link rel="icon" href="assets/favicon.png">
+<style>
+  :root {
+    --bg: #f7f8fc;
+    --surface: #ffffff;
+    --text: #15161a;
+    --muted: #5d6170;
+    --line: #e4e6ee;
+    --accent: #3b5bfd;
+    --accent2: #7a3ff2;
+    --accent-soft: #eef0ff;
+    --shadow: 0 20px 50px -20px rgba(40, 50, 120, .35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e0f14;
+      --surface: #171922;
+      --text: #f1f2f6;
+      --muted: #a2a6b6;
+      --line: #262938;
+      --accent: #7d93ff;
+      --accent2: #a97cff;
+      --accent-soft: #1d2140;
+      --shadow: 0 20px 50px -20px rgba(0, 0, 0, .7);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; gap: 24px; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); }
+  .brand img { width: 30px; height: 30px; }
+  nav .links { margin-left: auto; display: flex; gap: 22px; align-items: center; font-size: 15px; }
+  nav .links a { color: var(--muted); }
+  nav .links a.btn { color: #fff; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-weight: 600; border: 0;
+    box-shadow: 0 10px 24px -10px var(--accent);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); box-shadow: 0 14px 30px -10px var(--accent); }
+  .btn.small { padding: 8px 16px; font-size: 14px; }
+  .btn svg { width: 20px; height: 20px; }
+
+  /* Hero */
+  .hero { padding: 72px 0 40px; text-align: center; }
+  .hero .icon { width: 112px; height: 112px; filter: drop-shadow(0 14px 24px rgba(60, 70, 200, .35)); }
+  h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 18px 0 14px; letter-spacing: -0.02em; }
+  h1 .grad { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); max-width: 680px; margin: 0 auto 30px; }
+  .meta { margin-top: 14px; font-size: 14px; color: var(--muted); }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+  .badge { font-size: 13px; padding: 5px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .shot { margin: 48px auto 0; max-width: 1000px; }
+  .shot img { width: 100%; height: auto; border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--line); display: block; }
+
+  /* Sections */
+  section { padding: 72px 0; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 13px; font-weight: 700; color: var(--accent); }
+  h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 8px 0 14px; letter-spacing: -0.015em; }
+  .sub { color: var(--muted); max-width: 640px; margin: 0 0 36px; }
+  .center { text-align: center; }
+  .center .sub { margin-left: auto; margin-right: auto; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px;
+  }
+  .card .ico {
+    width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 14px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .card .ico svg { width: 24px; height: 24px; }
+  .card h3 { margin: 0 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15.5px; }
+
+  .split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+  .split.reverse { grid-template-columns: 1fr 1.05fr; }
+  .split img { width: 100%; max-width: 440px; border-radius: 14px; box-shadow: var(--shadow); border: 1px solid var(--line); display: block; margin: 0 auto; }
+  .ticks { list-style: none; padding: 0; margin: 0; }
+  .ticks li { padding-left: 30px; position: relative; margin: 10px 0; }
+  .ticks li::before {
+    content: ""; position: absolute; left: 0; top: 4px; width: 18px; height: 18px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='10'/%3E%3C/svg%3E");
+  }
+  .ticks li::after { content: "✓"; position: absolute; left: 4px; top: 1px; font-size: 12px; color: #fff; font-weight: 800; }
+
+  .steps { counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px; position: relative; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; font-weight: 700; margin-bottom: 12px;
+  }
+  .step h3 { margin: 0 0 6px; font-size: 17px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .illo { padding: 22px 24px; }
+  .illo svg { width: 100%; height: auto; display: block; }
+  .illo-title { font-weight: 700; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .illo-legend { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .pill { font-size: 12px; font-weight: 700; color: #f29a3b; background: rgba(242, 154, 59, .14); padding: 2px 8px; border-radius: 999px; }
+  .compare { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  .chip { font-size: 13px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .muted { color: var(--muted); font-size: 13px; }
+  .perm { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 22px; }
+  .perm div { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; }
+  .perm b { display: block; }
+  .perm span { color: var(--muted); font-size: 15px; }
+
+  .privacy { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border-radius: 26px; padding: 48px; }
+  .privacy h2 { color: #fff; }
+  .privacy p { color: rgba(255, 255, 255, .88); max-width: 720px; margin: 0; font-size: 18px; }
+
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 20px; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); margin: 10px 0 2px; }
+  code { font: 14px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; }
+
+  .cta { text-align: center; padding: 80px 0 90px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 820px) {
+    nav .links a:not(.btn) { display: none; }
+    .split, .split.reverse { grid-template-columns: 1fr; gap: 28px; }
+    .split.reverse .text { order: -1; }
+    section { padding: 52px 0; }
+    .privacy { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="assets/icon.png" alt="">SoundGate</a>
+    <div class="links">
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn small download-link" href="https://github.com/markhydar-code/SoundGate-Download/releases/latest/download/SoundGate.dmg">Download</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="icon" src="assets/icon.png" alt="SoundGate icon">
+    <h1>Take control of<br><span class="grad">your Mac's sound</span></h1>
+    <p class="lede">Send sound to your monitor, set the volume of each app, tune it to your ears with a hearing test, and make headphones sound like speakers in front of you.</p>
+    <a class="btn download-link" href="https://github.com/markhydar-code/SoundGate-Download/releases/latest/download/SoundGate.dmg">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.2 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
+      Download for Mac
+    </a>
+    <div class="meta" id="release-meta">Free · macOS 14.2 or later · Apple silicon</div>
+    <div class="badges">
+      <span class="badge">Notarized by Apple</span>
+      <span class="badge">Runs entirely on your Mac</span>
+      <span class="badge">No account needed</span>
+    </div>
+    <div class="shot"><img src="assets/mixer.png" alt="SoundGate's Mixer & EQ window: volume, boost and balance knobs, an app mixer, spatial audio settings and a parametric equalizer" width="1204" height="986"></div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Features</div>
+      <h2>Everything your Mac's sound settings are missing</h2>
+      <p class="sub">SoundGate lives in your menu bar and quietly takes care of where your sound goes and how it sounds.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></div>
+        <h3>Sound on your monitor</h3>
+        <p>Route audio to your display's speakers automatically when it's connected, and switch back when it isn't.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></div>
+        <h3>Volume keys that work</h3>
+        <p>macOS can't change a DisplayPort monitor's volume. SoundGate can — with your keyboard's volume keys and an on-screen indicator.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 4v16M12 4v16M18 4v16"/><rect x="4" y="13" width="4" height="3" rx="1" fill="currentColor"/><rect x="10" y="7" width="4" height="3" rx="1" fill="currentColor"/><rect x="16" y="11" width="4" height="3" rx="1" fill="currentColor"/></svg></div>
+        <h3>Volume per app</h3>
+        <p>Turn one app down, mute another, or send it to a different device — music on the speakers, calls in your headphones.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14c2.5 0 3-6 5.5-6S11 16 13.5 16 16 9 18 9s2.2 3 3 3"/></svg></div>
+        <h3>Equalizer, simple or expert</h3>
+        <p>Quick presets and a 10-band EQ, or a parametric Expert EQ with up to 16 bands you drag right on the graph.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1 1 10.4 4.1c-1.3 1.4-2.4 2.3-2.4 4.4A2.5 2.5 0 0 1 9.4 19"/><path d="M9 9a3 3 0 0 1 5.6-1.5"/></svg></div>
+        <h3>A hearing test for your EQ</h3>
+        <p>A few minutes of beeps in each ear finds what you hear less well — and builds a personal EQ, with a before/after to prove it.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="14" width="4" height="6" rx="1.5"/><rect x="17.5" y="14" width="4" height="6" rx="1.5"/></svg></div>
+        <h3>Spatial audio for headphones</h3>
+        <p>Hear music from speakers in front of you instead of inside your head — and with AirPods, they stay put when you turn.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M4 12h7M4 18h4"/><path d="M17 4v16m0 0-3-3m3 3 3-3"/></svg></div>
+        <h3>Device profiles & priorities</h3>
+        <p>Every speaker and headphone keeps its own sound, and your favourite connected device is always chosen first.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2.5"/><rect x="13" y="3" width="8" height="8" rx="2.5"/><rect x="3" y="13" width="8" height="8" rx="2.5"/><rect x="13" y="13" width="8" height="8" rx="2.5"/></svg></div>
+        <h3>Control Center & menu bar</h3>
+        <p>Quick volume buttons in Control Center, and everything else one click away in the menu bar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div class="text">
+      <div class="eyebrow">Hearing test</div>
+      <h2>An EQ tuned to your ears</h2>
+      <p class="sub">Everyone hears a little differently — and every pair of headphones sounds different too. SoundGate measures both at once.</p>
+      <ul class="ticks">
+        <li>Short beeps in each ear find the quietest sound you can hear at each pitch</li>
+        <li>A personal EQ gently lifts what you hear less well</li>
+        <li>Compare <b>before and after</b> on speech or music, at matched loudness</li>
+        <li>Results are saved and named for your headphones</li>
+      </ul>
+      <p class="meta" style="text-align:left">Not a medical test — it tunes your sound, it doesn't diagnose.</p>
+    </div>
+    <div class="card illo" aria-label="Illustration: hearing results for each ear and the personal EQ curve built from them">
+      <div class="illo-title">Your results</div>
+      <svg viewBox="0 0 400 150" role="img">
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="20" y1="30" x2="380" y2="30"/><line x1="20" y1="70" x2="380" y2="70"/><line x1="20" y1="110" x2="380" y2="110"/>
+        </g>
+        <polyline fill="none" stroke="#4f7cff" stroke-width="2.5" points="30,64 95,66 160,70 225,74 290,100 360,118"/>
+        <polyline fill="none" stroke="#ff5a6e" stroke-width="2.5" points="30,72 95,70 160,70 225,78 290,92 360,112"/>
+        <g fill="#4f7cff" font-size="13" font-weight="700" text-anchor="middle">
+          <text x="30" y="68">×</text><text x="95" y="70">×</text><text x="160" y="74">×</text><text x="225" y="78">×</text><text x="290" y="104">×</text><text x="360" y="122">×</text>
+        </g>
+        <g fill="none" stroke="#ff5a6e" stroke-width="2">
+          <circle cx="30" cy="72" r="4"/><circle cx="95" cy="70" r="4"/><circle cx="160" cy="70" r="4"/><circle cx="225" cy="78" r="4"/><circle cx="290" cy="92" r="4"/><circle cx="360" cy="112" r="4"/>
+        </g>
+        <g fill="var(--muted)" font-size="11" text-anchor="middle">
+          <text x="30" y="145">250</text><text x="95" y="145">500</text><text x="160" y="145">1k</text><text x="225" y="145">2k</text><text x="290" y="145">4k</text><text x="360" y="145">8k Hz</text>
+        </g>
+      </svg>
+      <div class="illo-legend"><span style="color:#4f7cff">× Left</span><span style="color:#ff5a6e">○ Right</span><span>lower = harder to hear</span></div>
+      <div class="illo-title" style="margin-top:18px">Your personal EQ <span class="pill">Treble Lift</span></div>
+      <svg viewBox="0 0 400 90" role="img">
+        <defs><linearGradient id="eqfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f29a3b" stop-opacity=".45"/><stop offset="1" stop-color="#f29a3b" stop-opacity=".05"/></linearGradient></defs>
+        <line x1="10" y1="60" x2="390" y2="60" stroke="var(--line)"/>
+        <path d="M10 60 C 120 60, 200 61, 250 50 S 330 18, 390 16 L390 60 Z" fill="url(#eqfill)"/>
+        <path d="M10 60 C 120 60, 200 61, 250 50 S 330 18, 390 16" fill="none" stroke="#f29a3b" stroke-width="3"/>
+      </svg>
+      <div class="compare"><span class="chip">▶ Before</span><span class="chip on">▶ After</span><span class="muted">Speech · Music · Your own song</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split reverse">
+    <img src="assets/panel.png" alt="SoundGate's menu bar panel: output volume, per-app volume, equalizer and spatial audio controls" width="868" height="950" loading="lazy">
+    <div class="text">
+      <div class="eyebrow">Menu bar</div>
+      <h2>Everything one click away</h2>
+      <p class="sub">The menu bar panel puts the controls you use every day right where you need them.</p>
+      <ul class="ticks">
+        <li>Your monitor's or headphones' volume, with mute</li>
+        <li>A slider for every app — plus “Other Apps” for the rest</li>
+        <li>Send any app to a different output with one click</li>
+        <li>EQ presets and spatial audio on or off in a click</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Spatial audio</div>
+      <h2>Never heard of spatial audio? Perfect.</h2>
+      <p class="sub">A one-minute guided setup plays music while you listen and choose. No jargon, no wrong answers.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Speakers in front of you</h3><p>Switch between normal headphone sound and virtual speakers, and keep the one you like.</p></div>
+      <div class="step"><h3>How wide</h3><p>Narrow, normal or wide — like desk speakers or a home theatre.</p></div>
+      <div class="step"><h3>Turn your head</h3><p>With AirPods, the sound stays where your screen is — just like real speakers.</p></div>
+      <div class="step"><h3>Add a room</h3><p>A touch of natural echo, from a small room to a concert hall — or none at all.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="eyebrow">Install</div>
+    <h2>Up and running in a minute</h2>
+    <div class="steps">
+      <div class="step"><h3>Download</h3><p>Get <b>SoundGate.dmg</b> and open it.</p></div>
+      <div class="step"><h3>Run the installer</h3><p>Double-click <b>Install SoundGate</b> and follow the steps. It opens when it's done.</p></div>
+      <div class="step"><h3>Find it in the menu bar</h3><p>Click the SoundGate icon near the clock. Closing the window keeps it running.</p></div>
+    </div>
+    <h3 style="margin-top:44px">Permissions macOS will ask for — and why</h3>
+    <div class="perm">
+      <div><b>Accessibility</b><span>So your keyboard's volume keys can control your monitor's speakers.</span></div>
+      <div><b>System Audio Recording</b><span>So SoundGate can change each app's volume, EQ and spatial audio. Sound is processed live on your Mac — never recorded or sent anywhere.</span></div>
+      <div><b>Motion &amp; Fitness</b><span>Only for AirPods head tracking.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="privacy">
+      <h2>Your sound stays on your Mac</h2>
+      <p>SoundGate has no account, no analytics and no servers. All audio processing happens on your Mac in real time — nothing is recorded, stored or uploaded.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap" style="max-width:820px">
+    <div class="eyebrow">FAQ</div>
+    <h2>Questions</h2>
+    <details><summary>Is SoundGate free?</summary><p>Yes.</p></details>
+    <details><summary>Which Macs does it run on?</summary><p>Macs with Apple silicon running macOS 14.2 (Sonoma) or later. Control Center buttons need macOS 26 or later.</p></details>
+    <details><summary>Does it work with my headphones?</summary><p>Any headphones get spatial audio's speakers-in-front effect. Head tracking needs AirPods (3rd generation or later), AirPods Pro, AirPods Max or supported Beats. If your AirPods already use Apple's “Spatialize Stereo”, turn that off in Control Center so the sound isn't processed twice.</p></details>
+    <details><summary>My monitor's volume keys don't do anything on a Mac. Will this fix it?</summary><p>Usually, yes. Most monitors let SoundGate change their speaker volume directly over the display cable (DDC). If yours doesn't, SoundGate tells you so in the app.</p></details>
+    <details><summary>Why does it need System Audio Recording?</summary><p>That's the macOS permission that lets an app process other apps' sound — needed for per-app volume, the EQ and spatial audio. SoundGate only processes the sound live; nothing is recorded.</p></details>
+    <details><summary>How do I uninstall it?</summary><p>Quit SoundGate from its menu, then drag <b>SoundGate</b> from Applications to the Trash. To also remove its settings, run <code>defaults delete com.markhydar.SoundGate</code> in Terminal.</p></details>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <img src="assets/icon.png" alt="" width="72" height="72">
+    <h2>Ready to hear the difference?</h2>
+    <a class="btn download-link" href="https://github.com/markhydar-code/SoundGate-Download/releases/latest/download/SoundGate.dmg">Download for Mac</a>
+    <div class="meta"><a href="https://github.com/markhydar-code/SoundGate-Download/releases">Release notes &amp; previous versions</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 SoundGate</span>
+    <span><a href="https://github.com/markhydar-code/SoundGate-Download/releases">Releases</a></span>
+  </div>
+</footer>
+
+<script>
+  // Show the current version, date and size from the latest GitHub release.
+  (async () => {
+    try {
+      const res = await fetch("https://api.github.com/repos/markhydar-code/SoundGate-Download/releases/latest");
+      if (!res.ok) return;
+      const release = await res.json();
+      const dmg = (release.assets || []).find(a => a.name === "SoundGate.dmg");
+      const date = new Date(release.published_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+      const size = dmg ? ` · ${(dmg.size / 1048576).toFixed(1)} MB` : "";
+      document.getElementById("release-meta").textContent =
+        `Version ${release.tag_name.replace(/^v/, "")} · ${date}${size} · macOS 14.2+ · Apple silicon · Free`;
+    } catch (_) { /* keep the static text */ }
+  })();
+</script>
+</body>
+</html>
