@@ -76,7 +76,11 @@
 
   /* Hero */
   .hero { padding: 72px 0 40px; text-align: center; }
-  .hero .icon { width: 112px; height: 112px; filter: drop-shadow(0 14px 24px rgba(60, 70, 200, .35)); }
+  .hero-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 18px; }
+  .hero .icon { width: 64px; height: 64px; filter: drop-shadow(0 10px 18px rgba(60, 70, 200, .35)); }
+  .stats { margin-top: 4px; }
+  .showcase { padding-top: 24px; }
+  .showcase .shot { margin-top: 8px; }
   h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 18px 0 14px; letter-spacing: -0.02em; }
   h1 .grad { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .lede { font-size: clamp(18px, 2.2vw, 21px); color: var(--muted); max-width: 680px; margin: 0 auto 30px; }
@@ -203,20 +207,20 @@
 
 <header class="hero">
   <div class="wrap">
-    <img class="icon" src="assets/icon.png" alt="SoundGate icon">
-    <h1>Take control of<br><span class="grad">your Mac's sound</span></h1>
-    <p class="lede">Send sound to your monitor, set the volume of each app, tune it to your ears with a hearing test, and make headphones sound like speakers in front of you.</p>
+    <div class="hero-brand"><img class="icon" src="assets/icon.png" alt="SoundGate icon"><span>SoundGate for Mac</span></div>
+    <h1>Your monitor has speakers.<br><span class="grad">Your Mac won't let you turn them up.</span></h1>
+    <p class="lede">Plug a monitor with built-in speakers into a Mac and sound doesn't reliably go there — and when it does, the volume keys stop working. SoundGate fixes both, and gives you control over every app's sound.</p>
     <a class="btn download-link" href="https://github.com/markhydar-code/SoundGate-Download/releases/latest/download/SoundGate.dmg">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.8zM14.2 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
       Download for Mac
     </a>
     <div class="meta" id="release-meta">Free · macOS 14.2 or later · Apple silicon</div>
+    <div class="meta stats" id="site-stats" hidden></div>
     <div class="badges">
       <span class="badge">Notarized by Apple</span>
       <span class="badge">Runs entirely on your Mac</span>
       <span class="badge">No account needed</span>
     </div>
-    <div class="shot"><img src="assets/mixer.png?v=2" alt="SoundGate's Mixer & EQ window: volume, boost and balance knobs, an app mixer, spatial audio settings and a parametric equalizer" width="1204" height="986"></div>
   </div>
 </header>
 
@@ -224,8 +228,7 @@
   <div class="wrap">
     <div class="center">
       <div class="eyebrow">Why SoundGate exists</div>
-      <h2>Your monitor has speakers.<br>Your Mac won't let you turn them up.</h2>
-      <p class="sub">SoundGate started with a simple frustration. Plug a monitor with built-in speakers into a Mac and sound doesn't reliably go there — and when it does, the volume keys stop working. macOS can't change the volume of a monitor connected over DisplayPort, HDMI or Thunderbolt, so you end up reaching for the buttons on the back of the display.</p>
+      <h2>Made for the one job Apple left out</h2>
     </div>
 
     <div class="versus">
@@ -255,6 +258,15 @@
     </blockquote>
 
     <p class="sub center-text">Once that worked, SoundGate kept growing — volume for every app, an equalizer tuned to your hearing, and spatial audio for headphones.</p>
+  </div>
+</section>
+
+<section class="showcase">
+  <div class="wrap center">
+    <div class="eyebrow">The app</div>
+    <h2>Take control of your Mac's sound</h2>
+    <p class="sub">Send sound to your monitor, set the volume of each app, tune it to your ears with a hearing test, and make headphones sound like speakers in front of you.</p>
+    <div class="shot"><img src="assets/mixer.png?v=2" alt="SoundGate's Mixer & EQ window: volume, boost and balance knobs, an app mixer, spatial audio settings and a parametric equalizer" width="1204" height="986"></div>
   </div>
 </section>
 
@@ -446,6 +458,38 @@
 </footer>
 
 <script>
+  // Visits (counted once per browser per day via the Abacus counter API) and total downloads
+  // (from GitHub's own release download counts). Shown only when the numbers load.
+  (async () => {
+    const fmt = n => n.toLocaleString();
+    const parts = [];
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      let counted = null;
+      try { counted = localStorage.getItem("sg-visit-day"); } catch (_) {}
+      const action = counted === today ? "get" : "hit";
+      const res = await fetch(`https://abacus.jasoncameron.dev/${action}/markhydar-soundgate/visits`);
+      if (res.ok) {
+        const { value } = await res.json();
+        if (value >= 0) parts.push(`👁 ${fmt(value)} visits`);
+        if (action === "hit") { try { localStorage.setItem("sg-visit-day", today); } catch (_) {} }
+      }
+    } catch (_) {}
+    try {
+      const res = await fetch("https://api.github.com/repos/markhydar-code/SoundGate-Download/releases?per_page=100");
+      if (res.ok) {
+        const releases = await res.json();
+        const total = releases.reduce((sum, r) => sum + r.assets.reduce((a, x) => a + x.download_count, 0), 0);
+        parts.push(`⬇ ${fmt(total)} downloads`);
+      }
+    } catch (_) {}
+    if (parts.length) {
+      const el = document.getElementById("site-stats");
+      el.textContent = parts.join(" · ");
+      el.hidden = false;
+    }
+  })();
+
   // Show the current version, date and size from the latest GitHub release.
   (async () => {
     try {
