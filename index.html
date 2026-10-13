@@ -177,6 +177,8 @@
   details p { color: var(--muted); margin: 10px 0 2px; }
   code { font: 14px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--accent-soft); padding: 2px 6px; border-radius: 6px; }
 
+  .fix { margin: 10px 0 2px; padding-left: 22px; color: var(--muted); }
+  .fix li { margin: 6px 0; }
   .cta { text-align: center; padding: 80px 0 90px; }
   footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
   footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -360,6 +362,7 @@
       <a href="#features">Features</a>
       <a href="#install">Install</a>
       <a href="#faq">FAQ</a>
+      <a href="#troubleshooting">Help</a>
       <a class="btn small download-link" href="https://github.com/markhydar-code/SoundGate-Download/releases/latest/download/SoundGate.dmg">Download</a>
     </div>
   </div>
@@ -715,6 +718,42 @@
     <details><summary>Why does it need System Audio Recording?</summary><p>That's the macOS permission that lets an app process other apps' sound — needed for per-app volume, the EQ and spatial audio. SoundGate only processes the sound live; nothing is recorded.</p></details>
     <details><summary>How does SoundGate stay up to date?</summary><p>It checks this site's releases about once a day and lets you know when a new version is out — install it with one click from the menu bar. Turn on <b>Install updates automatically</b> to have SoundGate download and install updates itself (macOS asks for your password to update an app in Applications). Every update is checked to be signed by SoundGate's developer and notarized by Apple before it's installed. You can switch off update checks entirely under <b>Devices &amp; Settings → About</b>.</p></details>
     <details><summary>How do I uninstall it?</summary><p>Quit SoundGate from its menu, then drag <b>SoundGate</b> from Applications to the Trash. To also remove its settings, run <code>defaults delete com.markhydar.SoundGate</code> in Terminal.</p></details>
+  </div>
+</section>
+
+<section id="troubleshooting">
+  <div class="wrap" style="max-width:820px">
+    <div class="eyebrow">Troubleshooting</div>
+    <h2>Something not working?</h2>
+    <p class="sub">Most problems come down to a macOS permission. Here's how to fix the common ones.</p>
+    <details><summary>The volume keys don't change my monitor's volume</summary>
+      <p>SoundGate needs <b>Accessibility</b> permission to read the volume keys — if it's missing, the menu bar panel shows a warning with a <b>Grant…</b> button.</p>
+      <ol class="fix">
+        <li>Open <a href="x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility">System Settings → Privacy &amp; Security → Accessibility</a>.</li>
+        <li>If <b>SoundGate</b> is already in the list, select it and click <b>−</b> to remove it. (macOS ties the permission to one exact copy of the app, so an entry left over from an older or reinstalled copy can look switched on but no longer apply.)</li>
+        <li>Click <b>+</b>, choose <b>Applications → SoundGate</b>, and switch it on.</li>
+      </ol>
+      <p>No restart needed — the keys start working within a couple of seconds and the warning disappears.</p>
+    </details>
+    <details><summary>The keys work, but the monitor's volume doesn't change</summary>
+      <p>SoundGate changes the volume over the display cable (DDC). Make sure <b>DDC/CI</b> is turned on in the monitor's on-screen menu, and that its speakers aren't muted there. Some docks, hubs and adapters don't pass DDC through — try connecting the monitor directly with a USB‑C or DisplayPort cable. If your monitor doesn't support it, SoundGate says so in the app.</p>
+    </details>
+    <details><summary>Sound doesn't come out of my monitor</summary>
+      <p>The menu bar panel shows where sound is playing (“Playing through …”). In <b>Devices &amp; Settings → Output Priority</b>, move your monitor to the top and turn on <b>Automatically use the highest-priority output</b>. Also check the monitor's own menu — some monitors have a separate audio-source or speaker setting.</p>
+    </details>
+    <details><summary>Per-app volume, the EQ or spatial audio have no effect</summary>
+      <p>These need <b>System Audio Recording</b> permission. Open <a href="x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture">System Settings → Privacy &amp; Security → Screen &amp; System Audio Recording</a>, and under <b>System Audio Recording Only</b> switch on SoundGate. If it's already on but nothing changes, remove it with <b>−</b>, add it again with <b>+</b>, then quit and reopen SoundGate.</p>
+    </details>
+    <details><summary>Head tracking doesn't follow my head</summary>
+      <p>Head tracking needs supported AirPods or Beats, worn and connected, and the <b>Motion &amp; Fitness</b> permission (System Settings → Privacy &amp; Security → Motion &amp; Fitness). Turn off Apple's “Spatialize Stereo” for your AirPods in Control Center so the sound isn't processed twice, and use <b>Re-centre</b> to reset which way is forward.</p>
+    </details>
+    <details><summary>I can't find SoundGate in the menu bar</summary>
+      <p>On Macs with a notch, menu bar icons can be hidden when there are too many — quit an app or two to make room. On macOS 26 and later, check that SoundGate is allowed under <b>System Settings → Menu Bar</b>. You can always open SoundGate from Applications to bring up its window, and switch <b>Show SoundGate in</b> to include the Dock.</p>
+    </details>
+    <details><summary>An update didn't install</summary>
+      <p>Download the latest version from the button at the top of this page and run the installer — your settings are kept. If SoundGate says an update “isn't signed by SoundGate's developer”, it refused to install a download it couldn't verify; downloading it fresh from here fixes that.</p>
+    </details>
+    <p class="meta" style="text-align:left;margin-top:22px">Still stuck? <a href="https://github.com/markhydar-code/SoundGate-Download/issues/new">Report a problem</a> — say which Mac, macOS version and monitor or headphones you're using.</p>
   </div>
 </section>
 
