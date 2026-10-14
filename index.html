@@ -315,6 +315,35 @@
   kbd { font: 600 12px/1 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; padding: 3px 7px; border-radius: 5px; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 1.5px 0 var(--line); color: var(--text); }
   .try { margin-top: 20px; font-size: 15px; color: var(--muted); }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* Sync section */
+  .sync-illo { padding: 28px 24px 22px; }
+  .sync-row { display: grid; grid-template-columns: minmax(0, 1fr) 112px minmax(0, 1fr); align-items: center; gap: 8px; }
+  .sync-mac { text-align: center; padding: 16px 10px 14px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); }
+  .sync-mac svg { width: 54px; height: 40px; color: var(--muted); display: block; margin: 0 auto 8px; }
+  .sync-mac b { display: block; font-size: 14px; }
+  .sync-chip { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 4px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: rgba(242, 154, 59, .14); color: #d9822b; max-width: 100%; }
+  .sync-chip.ok { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); }
+  .sync-link { position: relative; height: 80px; display: grid; place-items: center; }
+  .sync-link::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px dashed color-mix(in srgb, var(--accent) 45%, var(--line)); }
+  .sync-cloud { position: relative; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow: 0 10px 24px -10px var(--accent); }
+  .sync-cloud svg { width: 32px; height: 32px; }
+  .sync-dot { position: absolute; top: calc(50% - 4px); left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: sync-move 2.6s ease-in-out infinite; }
+  .sync-dot.two { animation-delay: 1.3s; }
+  @keyframes sync-move { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: calc(100% - 8px); opacity: 0; } }
+  .sync-providers { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 22px; }
+  .sync-providers span { font-size: 13px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
+  .sync-path { margin-top: 14px; text-align: center; font-size: 13px; color: var(--muted); }
+  .sync-path code { font-size: 12.5px; }
+  @media (max-width: 520px) {
+    .sync-row { grid-template-columns: 1fr; }
+    .sync-link { height: 96px; }
+    .sync-link::before { left: 50%; right: auto; top: 0; bottom: 0; border-top: 0; border-left: 2px dashed color-mix(in srgb, var(--accent) 45%, var(--line)); }
+    .sync-dot { left: calc(50% - 4px); top: 0; animation-name: sync-move-v; }
+    @keyframes sync-move-v { 0% { top: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: calc(100% - 8px); opacity: 0; } }
+  }
+  @media (prefers-reduced-motion: reduce) { .sync-dot { animation: none; display: none; } }
+
   .mb-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-top: 48px; }
   .mb-extras h3 { margin: 0 0 6px; font-size: 18px; }
   .mb-extras p { margin: 0 0 16px; }
@@ -359,6 +388,7 @@
     <div class="links">
       <a href="#why">Why</a>
       <a href="#menu-bar">Menu bar</a>
+      <a href="#sync">Sync</a>
       <a href="#features">Features</a>
       <a href="#install">Install</a>
       <a href="#faq">FAQ</a>
@@ -383,6 +413,7 @@
       <span class="badge">Notarized by Apple</span>
       <span class="badge">Runs entirely on your Mac</span>
       <span class="badge">No account needed</span>
+      <span class="badge">Syncs between your Macs</span>
     </div>
   </div>
 </header>
@@ -554,6 +585,32 @@
         <p>Show SoundGate in the menu bar, the Dock, or both. It starts at login and quietly does its job.</p>
         <div class="compare"><span class="chip on">Menu Bar Only</span><span class="chip">Dock &amp; Menu Bar</span><span class="chip">Dock Only</span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="sync">
+  <div class="wrap split">
+    <div class="text">
+      <div class="eyebrow">Sync between Macs</div>
+      <h2>Your sound, on every Mac</h2>
+      <p class="sub">Most Mac sound apps keep your settings on the Mac you set them up on. SoundGate takes them with you — tune your sound once, and every Mac you use sounds the same.</p>
+      <ul class="ticks">
+        <li>Your <b>hearing-test EQ</b> and saved presets</li>
+        <li>Each speaker's and headphone's own sound — your AirPods sound the same on every Mac</li>
+        <li>Optionally <b>everything</b>: priorities, per-app volumes and appearance</li>
+        <li>Changes arrive on your other Macs on their own, usually within a minute</li>
+      </ul>
+      <p class="try">Your settings live in <b>your own</b> cloud — iCloud Drive, Google Drive, OneDrive or Dropbox. No account, and never on a SoundGate server.</p>
+    </div>
+    <div class="card sync-illo" role="img" aria-label="A hearing-test EQ syncing from a Mac mini to a MacBook through your cloud folder">
+      <div class="sync-row" aria-hidden="true">
+        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="2" width="48" height="29" rx="3"/><path d="M21 31v6M33 31v6M16 38h22" stroke-linecap="round"/></svg><b>Mac mini</b><span class="sync-chip">Hearing Test · Bass Lift</span></div>
+        <div class="sync-link"><span class="sync-dot"></span><span class="sync-dot two"></span><div class="sync-cloud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5z"/><path d="M9.5 13.5 12 11l2.5 2.5M12 11v5"/></svg></div></div>
+        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="4" width="38" height="25" rx="2.5"/><path d="M2 33h50l-3 4H5z"/></svg><b>MacBook Pro</b><span class="sync-chip ok">✓ Hearing Test · Bass Lift</span></div>
+      </div>
+      <div class="sync-providers" aria-hidden="true"><span>iCloud Drive</span><span>Google Drive</span><span>OneDrive</span><span>Dropbox</span><span>Any synced folder</span></div>
+      <div class="sync-path">Saved as <code>SoundGate › SoundGate Settings.plist</code> in the folder you choose</div>
     </div>
   </div>
 </section>
