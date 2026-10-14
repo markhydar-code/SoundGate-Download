@@ -606,6 +606,11 @@
         <h3>Control Center & menu bar</h3>
         <p>Quick volume buttons in Control Center, and everything else one click away in the menu bar.</p>
       </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5"/><path d="m9.5 15 2.5-2.5 2.5 2.5M12 12.5V20"/></svg></div>
+        <h3>Sync between Macs</h3>
+        <p>Your EQ presets, hearing test results and device sound follow you to every Mac — through iCloud Drive, Google Drive, OneDrive or Dropbox.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -702,7 +707,7 @@
   <div class="wrap">
     <div class="privacy">
       <h2>Your sound stays on your Mac</h2>
-      <p>SoundGate has no account, no analytics and no servers. All audio processing happens on your Mac in real time — nothing is recorded, stored or uploaded. Its only network request is a daily check for new versions on GitHub, which you can turn off.</p>
+      <p>SoundGate has no account, no analytics and no servers. All audio processing happens on your Mac in real time — nothing is recorded, stored or uploaded. Its only network request is a daily check for new versions on GitHub, which you can turn off. If you turn on Sync, your settings go to a cloud folder <em>you</em> choose — your own iCloud Drive, Google Drive or OneDrive — never to SoundGate's developer.</p>
     </div>
   </div>
 </section>
@@ -717,6 +722,7 @@
     <details><summary>My monitor's volume keys don't do anything on a Mac. Will this fix it?</summary><p>Usually, yes. Most monitors let SoundGate change their speaker volume directly over the display cable (DDC). If yours doesn't, SoundGate tells you so in the app.</p></details>
     <details><summary>Why does it need System Audio Recording?</summary><p>That's the macOS permission that lets an app process other apps' sound — needed for per-app volume, the EQ and spatial audio. SoundGate only processes the sound live; nothing is recorded.</p></details>
     <details><summary>How does SoundGate stay up to date?</summary><p>It checks this site's releases about once a day and lets you know when a new version is out — install it with one click from the menu bar. Turn on <b>Install updates automatically</b> to have SoundGate download and install updates itself (macOS asks for your password to update an app in Applications). Every update is checked to be signed by SoundGate's developer and notarized by Apple before it's installed. You can switch off update checks entirely under <b>Devices &amp; Settings → About</b>.</p></details>
+    <details><summary>Can I use the same settings on another Mac?</summary><p>Yes. Turn on <b>Devices &amp; Settings → Sync</b> on each Mac and pick the same cloud folder — iCloud Drive, Google Drive, OneDrive, Dropbox or any folder your cloud app syncs. Your saved EQ presets, hearing test results and each device's sound stay in step; turn on <b>Also sync all settings</b> to include priorities, per-app volumes and appearance. The most recent change wins, and a Mac that joins later keeps its own saved presets.</p></details>
     <details><summary>How do I uninstall it?</summary><p>Quit SoundGate from its menu, then drag <b>SoundGate</b> from Applications to the Trash. To also remove its settings, run <code>defaults delete com.markhydar.SoundGate</code> in Terminal.</p></details>
   </div>
 </section>
@@ -742,13 +748,16 @@
       <p>The menu bar panel shows where sound is playing (“Playing through …”). In <b>Devices &amp; Settings → Output Priority</b>, move your monitor to the top and turn on <b>Automatically use the highest-priority output</b>. Also check the monitor's own menu — some monitors have a separate audio-source or speaker setting.</p>
     </details>
     <details><summary>Per-app volume, the EQ or spatial audio have no effect</summary>
-      <p>These need <b>System Audio Recording</b> permission. Open <a href="x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture">System Settings → Privacy &amp; Security → Screen &amp; System Audio Recording</a>, and under <b>System Audio Recording Only</b> switch on SoundGate. If it's already on but nothing changes, remove it with <b>−</b>, add it again with <b>+</b>, then quit and reopen SoundGate.</p>
+      <p>These need <b>System Audio Recording</b> permission. Open <a href="x-apple.systempreferences:com.apple.preference.security?Privacy_AudioCapture">System Settings → Privacy &amp; Security → Screen &amp; System Audio Recording</a>, and under <b>System Audio Recording Only</b> switch on SoundGate. If it's already on but nothing changes, remove it with <b>−</b>, add it again with <b>+</b>, then quit and reopen SoundGate.</p>
     </details>
     <details><summary>Head tracking doesn't follow my head</summary>
       <p>Head tracking needs supported AirPods or Beats, worn and connected, and the <b>Motion &amp; Fitness</b> permission (System Settings → Privacy &amp; Security → Motion &amp; Fitness). Turn off Apple's “Spatialize Stereo” for your AirPods in Control Center so the sound isn't processed twice, and use <b>Re-centre</b> to reset which way is forward.</p>
     </details>
     <details><summary>I can't find SoundGate in the menu bar</summary>
       <p>On Macs with a notch, menu bar icons can be hidden when there are too many — quit an app or two to make room. On macOS 26 and later, check that SoundGate is allowed under <b>System Settings → Menu Bar</b>. You can always open SoundGate from Applications to bring up its window, and switch <b>Show SoundGate in</b> to include the Dock.</p>
+    </details>
+    <details><summary>Settings don't sync to my other Mac</summary>
+      <p>Both Macs need SoundGate 1.0.3 or later with <b>Sync</b> on and the <b>same</b> cloud folder chosen, and the cloud app (iCloud Drive, Google Drive, OneDrive…) has to be running and signed in to the same account on both. Changes usually arrive within a minute — click <b>Sync Now</b> to check straight away. If macOS asks whether SoundGate may access files in your cloud folder, click <b>Allow</b>.</p>
     </details>
     <details><summary>An update didn't install</summary>
       <p>Download the latest version from the button at the top of this page and run the installer — your settings are kept. If SoundGate says an update “isn't signed by SoundGate's developer”, it refused to install a download it couldn't verify; downloading it fresh from here fixes that.</p>
