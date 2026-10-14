@@ -596,18 +596,18 @@
       <h2>Your sound, on every Mac</h2>
       <p class="sub">Most Mac sound apps keep your settings on the Mac you set them up on. SoundGate takes them with you — tune your sound once, and every Mac you use sounds the same.</p>
       <ul class="ticks">
-        <li>Your <b>hearing-test EQ</b> and saved presets</li>
+        <li>Your <b>custom EQ profiles</b> and saved presets</li>
         <li>Each speaker's and headphone's own sound — your AirPods sound the same on every Mac</li>
         <li>Optionally <b>everything</b>: priorities, per-app volumes and appearance</li>
         <li>Changes arrive on your other Macs on their own, usually within a minute</li>
       </ul>
       <p class="try">Your settings live in <b>your own</b> cloud — iCloud Drive, Google Drive, OneDrive or Dropbox. No account, and never on a SoundGate server.</p>
     </div>
-    <div class="card sync-illo" role="img" aria-label="A hearing-test EQ syncing from a Mac mini to a MacBook through your cloud folder">
+    <div class="card sync-illo" role="img" aria-label="A custom EQ profile syncing from a Mac mini to a MacBook through your cloud folder">
       <div class="sync-row" aria-hidden="true">
-        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="2" width="48" height="29" rx="3"/><path d="M21 31v6M33 31v6M16 38h22" stroke-linecap="round"/></svg><b>Mac mini</b><span class="sync-chip">Hearing Test · Bass Lift</span></div>
+        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="2" width="48" height="29" rx="3"/><path d="M21 31v6M33 31v6M16 38h22" stroke-linecap="round"/></svg><b>Mac mini</b><span class="sync-chip">My EQ · Warm Vocals</span></div>
         <div class="sync-link"><span class="sync-dot"></span><span class="sync-dot two"></span><div class="sync-cloud"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5z"/><path d="M9.5 13.5 12 11l2.5 2.5M12 11v5"/></svg></div></div>
-        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="4" width="38" height="25" rx="2.5"/><path d="M2 33h50l-3 4H5z"/></svg><b>MacBook Pro</b><span class="sync-chip ok">✓ Hearing Test · Bass Lift</span></div>
+        <div class="sync-mac"><svg viewBox="0 0 54 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="4" width="38" height="25" rx="2.5"/><path d="M2 33h50l-3 4H5z"/></svg><b>MacBook Pro</b><span class="sync-chip ok">✓ My EQ · Warm Vocals</span></div>
       </div>
       <div class="sync-providers" aria-hidden="true"><span>iCloud Drive</span><span>Google Drive</span><span>OneDrive</span><span>Dropbox</span><span>Any synced folder</span></div>
       <div class="sync-path">Saved as <code>SoundGate › SoundGate Settings.plist</code> in the folder you choose</div>
@@ -666,7 +666,7 @@
       <div class="card">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.5-9A6 6 0 0 1 18 8.5a4 4 0 0 1-.5 9.5"/><path d="m9.5 15 2.5-2.5 2.5 2.5M12 12.5V20"/></svg></div>
         <h3>Sync between Macs</h3>
-        <p>Your EQ presets, hearing test results and device sound follow you to every Mac — through iCloud Drive, Google Drive, OneDrive or Dropbox.</p>
+        <p>Your custom EQ profiles, presets and device sound follow you to every Mac — through iCloud Drive, Google Drive, OneDrive or Dropbox.</p>
       </div>
     </div>
   </div>
@@ -779,7 +779,7 @@
     <details><summary>My monitor's volume keys don't do anything on a Mac. Will this fix it?</summary><p>Usually, yes. Most monitors let SoundGate change their speaker volume directly over the display cable (DDC). If yours doesn't, SoundGate tells you so in the app.</p></details>
     <details><summary>Why does it need System Audio Recording?</summary><p>That's the macOS permission that lets an app process other apps' sound — needed for per-app volume, the EQ and spatial audio. SoundGate only processes the sound live; nothing is recorded.</p></details>
     <details><summary>How does SoundGate stay up to date?</summary><p>It checks this site's releases about once a day and lets you know when a new version is out — install it with one click from the menu bar. Turn on <b>Install updates automatically</b> to have SoundGate download and install updates itself (macOS asks for your password to update an app in Applications). Every update is checked to be signed by SoundGate's developer and notarized by Apple before it's installed. You can switch off update checks entirely under <b>Devices &amp; Settings → About</b>.</p></details>
-    <details><summary>Can I use the same settings on another Mac?</summary><p>Yes. Turn on <b>Devices &amp; Settings → Sync</b> on each Mac and pick the same cloud folder — iCloud Drive, Google Drive, OneDrive, Dropbox or any folder your cloud app syncs. Your saved EQ presets, hearing test results and each device's sound stay in step; turn on <b>Also sync all settings</b> to include priorities, per-app volumes and appearance. The most recent change wins, and a Mac that joins later keeps its own saved presets.</p><p>Your settings are saved as <b>SoundGate › SoundGate Settings.plist</b> inside the cloud folder you pick — for example <b>iCloud Drive › SoundGate › SoundGate Settings.plist</b>. SoundGate shows the exact location under <b>Sync</b>, with a <b>Show in Finder</b> button.</p></details>
+    <details><summary>Can I use the same settings on another Mac?</summary><p>Yes. Turn on <b>Devices &amp; Settings → Sync</b> on each Mac and pick the same cloud folder — iCloud Drive, Google Drive, OneDrive, Dropbox or any folder your cloud app syncs. Your custom EQ profiles, saved presets and each device's sound stay in step; turn on <b>Also sync all settings</b> to include priorities, per-app volumes and appearance. The most recent change wins, and a Mac that joins later keeps its own saved presets.</p><p>Your settings are saved as <b>SoundGate › SoundGate Settings.plist</b> inside the cloud folder you pick — for example <b>iCloud Drive › SoundGate › SoundGate Settings.plist</b>. SoundGate shows the exact location under <b>Sync</b>, with a <b>Show in Finder</b> button.</p></details>
     <details><summary>How do I uninstall it?</summary><p>Quit SoundGate from its menu, then drag <b>SoundGate</b> from Applications to the Trash. To also remove its settings, run <code>defaults delete com.markhydar.SoundGate</code> in Terminal.</p></details>
   </div>
 </section>
