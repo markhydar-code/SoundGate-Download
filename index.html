@@ -283,21 +283,21 @@
   @keyframes sg-pulse { from { box-shadow: 0 0 0 0 rgba(255, 255, 255, .85); } to { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } }
   .mac-panel { transition: opacity .18s ease, transform .18s ease; transform-origin: top right; }
   .mac.closed .mac-panel { opacity: 0; transform: translateY(-6px) scale(.97); pointer-events: none; }
+  /* Volume indicator: a glass card under the right of the menu bar, like macOS 26's own */
   .mac-hud {
-    position: absolute; left: 50%; top: 56%; z-index: 3; width: 168px; padding: 20px 18px 14px; border-radius: 20px; text-align: center;
-    background: var(--p-bg); -webkit-backdrop-filter: blur(30px) saturate(170%); backdrop-filter: blur(30px) saturate(170%);
-    box-shadow: 0 0 0 .5px rgba(0, 0, 0, .25), 0 20px 40px -12px rgba(0, 0, 0, .45);
-    opacity: 0; transform: translate(-50%, -50%) scale(.94); transition: opacity .2s ease, transform .2s ease; pointer-events: none;
+    position: absolute; top: 32px; right: 8px; z-index: 3; width: min(240px, calc(100% - 16px)); padding: 12px 14px 13px; border-radius: 18px;
+    background: var(--p-bg); -webkit-backdrop-filter: blur(30px) saturate(180%); backdrop-filter: blur(30px) saturate(180%);
+    box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .45), 0 0 0 .5px rgba(0, 0, 0, .18), 0 14px 30px -10px rgba(0, 0, 0, .4);
+    opacity: 0; transform: translateY(-8px); transition: opacity .18s ease, transform .18s ease; pointer-events: none;
   }
-  .mac-hud.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  .hud-ic { width: 64px; height: 54px; margin: 0 auto; display: block; }
-  .hud-ic .x, .mac-hud[data-level="mute"] .hud-ic :is(.w1, .w2, .w3),
-  .mac-hud[data-level="1"] .hud-ic :is(.w2, .w3), .mac-hud[data-level="2"] .hud-ic .w3 { display: none; }
-  .mac-hud[data-level="mute"] .hud-ic .x { display: inline; }
-  .hud-bar { display: grid; grid-template-columns: repeat(16, 1fr); gap: 2px; margin-top: 14px; }
-  .hud-bar i { height: 6px; border-radius: 1px; background: var(--p-track); }
-  .hud-bar i.on { background: var(--p-text); }
-  .hud-name { margin-top: 9px; font-size: 11px; color: var(--p-2); }
+  .mac-hud.show { opacity: 1; transform: none; }
+  .hud-name { font-size: 12px; font-weight: 600; margin-bottom: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hud-row { display: grid; grid-template-columns: 14px 1fr 18px; align-items: center; gap: 9px; }
+  .hud-track { position: relative; height: 5px; border-radius: 3px; background: var(--p-track); overflow: hidden; }
+  .hud-track i { position: absolute; inset: 0 auto 0 0; width: calc(var(--lvl, .5) * 100%); background: var(--p-text); border-radius: 3px; transition: width .12s ease; }
+  .hud-row .x { display: none; }
+  .mac-hud[data-level="mute"] .hud-row .x { display: inline; }
+  .mac-hud[data-level="mute"] .hud-row .lo path:first-child { opacity: .5; }
   .keys { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 22px; }
   .key {
     width: 64px; height: 54px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text);
@@ -507,9 +507,8 @@
         </div>
 
         <div class="mac-hud" aria-hidden="true">
-          <svg class="hud-ic" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h7l10-9v30l-10-9H4z" fill="currentColor"/><path class="w1" d="M28 15a7 7 0 0 1 0 10"/><path class="w2" d="M33 10a14 14 0 0 1 0 20"/><path class="w3" d="M38 5a21 21 0 0 1 0 30"/><path class="x" d="M29 14l11 12M40 14 29 26"/></svg>
-          <div class="hud-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="hud-name">DELL U4025QW</div>
+          <div class="hud-row"><svg class="lo" width="12" height="12" viewBox="0 0 14 14" fill="currentColor"><path d="M1.5 4.8h2.4L7.2 2v10L3.9 9.2H1.5z"/><path class="x" d="M9 5l4 4M13 5l-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg><span class="hud-track"><i></i></span><svg width="16" height="12" viewBox="0 0 18 14" fill="currentColor"><path d="M1.5 4.8h2.4L7.2 2v10L3.9 9.2H1.5z"/><path d="M9.6 4.6a3.4 3.4 0 0 1 0 4.8M11.8 2.6a6.4 6.4 0 0 1 0 8.8M14 .8a9.2 9.2 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
         </div>
 
         <div class="mac-panel" aria-hidden="true">
@@ -991,6 +990,7 @@
       const silent = muted || vol === 0, steps = silent ? 0 : Math.round(vol * 16);
       bars.forEach((b, i) => b.classList.toggle('on', i < steps));
       hud.dataset.level = silent ? 'mute' : vol < .34 ? '1' : vol < .67 ? '2' : '3';
+      hud.style.setProperty('--lvl', silent ? 0 : vol);
     };
     const showHud = () => {
       render();
