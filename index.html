@@ -368,6 +368,31 @@
     .mac-panel, .mac-hud, .key { transition: none; }
   }
 
+  /* 1.0.7 panel details */
+  .mp-sec .ttl { display: inline-flex; align-items: center; gap: 5px; }
+  .mp-sec .chev { color: var(--p-2); }
+  .mp-sec .q { color: var(--p-2); margin-left: 2px; }
+  .mp-sec .sum { font-weight: 400; font-size: 11.5px; color: var(--p-2); }
+  .mp-input { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--p-2); margin: 2px 0 2px 2px; }
+  .pr-list { display: grid; gap: 2px; margin: 2px 0 4px; }
+  .pr-row { display: grid; grid-template-columns: 18px 18px minmax(0, 1fr) 14px; align-items: center; gap: 8px; padding: 3px 4px; border-radius: 6px; cursor: pointer; }
+  .pr-row:hover { background: var(--p-track); }
+  .pr-row.off { opacity: .5; cursor: default; }
+  .pr-row.off:hover { background: none; }
+  .pr-row svg { color: var(--p-2); }
+  .pr-n { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 700; background: var(--p-track); }
+  .pr-n.one { background: #0a84ff; color: #fff; }
+  .pr-nm { font-size: 12.5px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pr-nm small { display: block; font-size: 10.5px; color: var(--p-2); }
+  .pr-nm small.use { color: #0a84ff; }
+  .pr-row .ck { color: #0a84ff; visibility: hidden; }
+  .pr-row.cur .ck { visibility: visible; }
+  .mp-head > div { min-width: 0; }
+  .mp-head .s { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mp-foot { display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; color: var(--p-2); }
+  .mp-foot .mp-btn { color: var(--p-text); display: inline-flex; align-items: center; gap: 5px; }
+  .mp-head .mp-btn svg { flex: none; }
+
   /* Narrow scenes: drop the app menus and the date, and the less important button. */
   @container (max-width: 440px) { .mac-bar .menus, .mac-bar .date, .mac .opt { display: none; } }
 
@@ -484,11 +509,15 @@
           <div class="mp-head">
             <svg width="30" height="26" viewBox="0 0 30 26"><rect x="1" y="1" width="28" height="18" rx="2.5" fill="#2f8cff"/><rect x="3" y="3" width="24" height="14" rx="1" fill="#5aa8ff"/><path d="M11 20h8l1 4h-10z" fill="#2f8cff"/></svg>
             <div><div class="t">SoundGate</div><div class="s">Playing through DELL U4025QW</div></div>
-            <span class="mp-btn"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3.5 3a4.2 4.2 0 1 0 5 0M6 1v4.6"/></svg>Quit</span>
+            <span class="mp-btn"><svg width="12" height="11" viewBox="0 0 12 11" fill="none" stroke="currentColor" stroke-width="1.2"><rect x=".8" y=".8" width="10.4" height="9.4" rx="1.6"/><path d="M.8 3.3h10.4"/></svg>Open in Window</span>
           </div>
           <div class="mp-hr"></div>
 
-          <div class="mp-sec">Output Volume
+          <div class="mp-sec">Input</div>
+          <div class="mp-input"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="5" y="1.2" width="4" height="7" rx="2"/><path d="M3 6.5a4 4 0 0 0 8 0M7 10.5v2.3M2 1.5l10 11"/></svg><span>No microphone connected</span></div>
+          <div class="mp-hr"></div>
+
+          <div class="mp-sec"><span class="ttl"><svg class="chev" width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2 3.5 3 3 3-3"/></svg>Output Volume</span>
             <div class="mp-seg"><span class="on"><svg width="14" height="12" viewBox="0 0 16 14" fill="currentColor"><path d="M1 4.6h2.6L7.4 1.4v11.2L3.6 9.4H1z"/><path d="M9.8 4.4a3.6 3.6 0 0 1 0 5.2M11.8 2.4a6.6 6.6 0 0 1 0 9.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span><span><svg width="14" height="12" viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3.5h3c3 0 4.5 7 8 7h2.5M1 10.5h3c1.3 0 2.2-1.2 3-2.6M9.3 5c.8-.9 1.7-1.5 2.7-1.5h2.5M12.8 1.8l1.7 1.7-1.7 1.7M12.8 8.8l1.7 1.7-1.7 1.7"/></svg></span></div>
           </div>
           <div class="mp-row">
@@ -539,6 +568,20 @@
             <span class="mp-small"><span class="cb"></span>Head Tracking</span>
             <span class="mp-btn push">Set Up…</span>
           </div>
+          <div class="mp-hr"></div>
+
+          <div class="mp-sec"><span class="ttl"><svg class="chev" width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3.5 2 3 3-3 3"/></svg>Input Priority<svg class="q" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1"><circle cx="6" cy="6" r="5.2"/><path d="M4.6 4.6a1.5 1.5 0 1 1 2 1.4c-.4.2-.6.5-.6.9v.2" stroke-linecap="round"/><circle cx="6" cy="8.6" r=".5" fill="currentColor" stroke="none"/></svg></span><span class="sum">No microphone</span></div>
+          <div class="mp-hr"></div>
+
+          <div class="mp-sec"><span class="ttl"><svg class="chev" width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2 3.5 3 3 3-3"/></svg>Output Priority<svg class="q" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1"><circle cx="6" cy="6" r="5.2"/><path d="M4.6 4.6a1.5 1.5 0 1 1 2 1.4c-.4.2-.6.5-.6.9v.2" stroke-linecap="round"/><circle cx="6" cy="8.6" r=".5" fill="currentColor" stroke="none"/></svg></span></div>
+          <div class="pr-list">
+            <div class="pr-row off" data-dev="AirPods Pro"><span class="pr-n one">1</span><svg width="16" height="15" viewBox="0 0 16 15" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 10V8a6 6 0 0 1 12 0v2"/><rect x="1.5" y="9" width="3" height="5" rx="1.2"/><rect x="11.5" y="9" width="3" height="5" rx="1.2"/></svg><span class="pr-nm">AirPods Pro<small>Not connected</small></span></div>
+            <div class="pr-row" data-dev="DELL U4025QW" data-kind="monitor"><span class="pr-n">2</span><svg width="16" height="15" viewBox="0 0 16 15" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="1.5" width="14" height="9" rx="1.3"/><path d="M5.5 13.5h5M8 10.5v3"/></svg><span class="pr-nm">DELL U4025QW<small class="use">In use</small></span><svg class="ck" width="11" height="9" viewBox="0 0 11 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m1 4.6 3 3L10 1.4"/></svg></div>
+            <div class="pr-row" data-dev="Mac mini Speakers" data-kind="speaker"><span class="pr-n">3</span><svg width="16" height="15" viewBox="0 0 16 15" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="1" width="8" height="13" rx="1.5"/><circle cx="8" cy="9.3" r="2.2"/><circle cx="8" cy="4" r=".8" fill="currentColor"/></svg><span class="pr-nm">Mac mini Speakers<small class="use"></small></span><svg class="ck" width="11" height="9" viewBox="0 0 11 9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m1 4.6 3 3L10 1.4"/></svg></div>
+          </div>
+          <div class="mp-line"><span class="mp-small">Automatically use the highest-priority output</span><span class="tg on push"></span></div>
+          <div class="mp-hr"></div>
+          <div class="mp-foot"><span>Watching for output devices</span><span class="mp-btn"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M3.5 3a4.2 4.2 0 1 0 5 0M6 1v4.6"/></svg>Quit</span></div>
         </div>
       </div>
         <div class="keys" role="group" aria-label="Try the volume keys">
@@ -553,10 +596,11 @@
         <ul class="ticks">
           <li><b>Volume keys that work</b> — on the monitor's own speakers, with the familiar on-screen indicator</li>
           <li>A slider for every app — plus “Other Apps” for the rest</li>
+          <li>Switch between your monitor, speakers and headphones in one click — or let your priority list choose</li>
           <li>Send any app to a different output with one click</li>
           <li>EQ presets and spatial audio, on or off in a click</li>
         </ul>
-        <p class="try">Click the <b>SoundGate icon</b> in the menu bar above to open and close the panel — just like on your Mac.</p>
+        <p class="try">Click the <b>SoundGate icon</b> in the menu bar above to open and close the panel, or a device under <b>Output Priority</b> to switch to it — just like on your Mac. Everything else is one click away in <b>Open in Window</b>.</p>
       </div>
     </div>
 
@@ -970,6 +1014,21 @@
         icon.classList.remove('hint');
       });
     });
+
+    // Output Priority: click a device to switch to it, like in the app.
+    const rows = [...mac.querySelectorAll('.pr-row:not(.off)')];
+    const head = mac.querySelector('.mp-head .s'), devName = mac.querySelector('.dev-sl')?.closest('.mp-row')?.querySelector('.nm');
+    const hudName = hud.querySelector('.hud-name');
+    const choose = row => {
+      rows.forEach(r => { r.classList.toggle('cur', r === row); r.querySelector('small').textContent = r === row ? 'In use' : ''; });
+      const name = row.dataset.dev;
+      head.textContent = `Playing through ${name}`;
+      if (devName) devName.textContent = name;
+      hudName.textContent = name;
+      status.textContent = `Switched to ${name}`;
+    };
+    rows.forEach(r => r.addEventListener('click', () => choose(r)));
+    choose(rows[0]);
 
     render();
   })();
