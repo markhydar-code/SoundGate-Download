@@ -994,6 +994,10 @@
     };
     const showHud = () => {
       render();
+      // Hang the indicator from the SoundGate icon, like the app (kept inside the scene).
+      const left = Math.min(icon.offsetLeft, mac.clientWidth - hud.offsetWidth - 8);
+      hud.style.left = `${Math.max(8, left)}px`;
+      hud.style.right = 'auto';
       hud.classList.add('show');
       clearTimeout(hideTimer);
       hideTimer = setTimeout(() => hud.classList.remove('show'), 1300);
