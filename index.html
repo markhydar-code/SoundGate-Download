@@ -283,7 +283,7 @@
   @keyframes sg-pulse { from { box-shadow: 0 0 0 0 rgba(255, 255, 255, .85); } to { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); } }
   .mac-panel { transition: opacity .18s ease, transform .18s ease; transform-origin: top right; }
   .mac.closed .mac-panel { opacity: 0; transform: translateY(-6px) scale(.97); pointer-events: none; }
-  /* Volume indicator: a glass card under the right of the menu bar, like macOS 26's own */
+  /* Volume indicator: a glass card at the right edge under the menu bar, where macOS 26 puts its own */
   .mac-hud {
     position: absolute; top: 32px; right: 8px; z-index: 3; width: min(240px, calc(100% - 16px)); padding: 11px 14px 12px; border-radius: 17px;
     background: rgba(28, 28, 32, .38); color: #fff; -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%);
@@ -995,10 +995,6 @@
     };
     const showHud = () => {
       render();
-      // Hang the indicator from the SoundGate icon, like the app (kept inside the scene).
-      const left = Math.min(icon.offsetLeft, mac.clientWidth - hud.offsetWidth - 8);
-      hud.style.left = `${Math.max(8, left)}px`;
-      hud.style.right = 'auto';
       hud.classList.add('show');
       clearTimeout(hideTimer);
       hideTimer = setTimeout(() => hud.classList.remove('show'), 1300);
