@@ -393,6 +393,13 @@
   .mp-foot .mp-btn { color: var(--p-text); display: inline-flex; align-items: center; gap: 5px; }
   .mp-head .mp-btn svg { flex: none; }
 
+  /* Not in the App Store */
+  .side-label.store { color: var(--muted); }
+  .trust { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 28px; }
+  .trust div { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; }
+  .trust b { display: block; margin-bottom: 2px; }
+  .trust span { color: var(--muted); font-size: 15px; }
+
   /* Narrow scenes: drop the app menus and the date, and the less important button. */
   @container (max-width: 440px) { .mac-bar .menus, .mac-bar .date, .mac .opt { display: none; } }
 
@@ -655,6 +662,43 @@
       </div>
       <div class="sync-providers" aria-hidden="true"><span>iCloud Drive</span><span>Google Drive</span><span>OneDrive</span><span>Dropbox</span><span>Any synced folder</span></div>
       <div class="sync-path">Saved as <code>SoundGate › SoundGate Settings.plist</code> in the folder you choose</div>
+    </div>
+  </div>
+</section>
+
+<section id="not-app-store">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Not in the App Store — on purpose</div>
+      <h2>It does what App Store apps aren't allowed to</h2>
+      <p class="sub">Apple requires Mac App Store apps to run in a sandbox and use only public interfaces. Those rules keep the store safe — and they also stop an app from reaching your monitor's hardware. That's the one job SoundGate was built for.</p>
+    </div>
+
+    <div class="versus">
+      <div class="card side before">
+        <div class="side-label store">An App Store sound app</div>
+        <ul class="xs">
+          <li>Can only turn the sound <b>signal</b> down — your monitor's own speakers stay at whatever level they're set to</li>
+          <li>Never louder than the monitor's own setting, so you're back at the buttons behind the screen</li>
+          <li>Can't take over your keyboard's volume keys for the monitor</li>
+          <li>Often paid, or a subscription</li>
+        </ul>
+      </div>
+      <div class="card side after">
+        <div class="side-label">SoundGate</div>
+        <ul class="ticks">
+          <li>Changes the <b>monitor's own volume</b> over the display cable — exactly like pressing its buttons</li>
+          <li>The full range, from silent to the speakers' maximum, shown in the monitor's own menu too</li>
+          <li>Your volume keys control the monitor, with the familiar on-screen indicator</li>
+          <li>Free — no subscription, no account</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trust">
+      <div><b>Checked by Apple all the same</b><span>Every version is signed with a verified Developer ID and notarized — scanned by Apple for malware — so it opens without warnings.</span></div>
+      <div><b>Updates itself, safely</b><span>New versions install automatically, and SoundGate only accepts ones signed by its developer and notarized by Apple.</span></div>
+      <div><b>Private by design</b><span>No account, no analytics. Your sound is processed live on your Mac and never leaves it.</span></div>
     </div>
   </div>
 </section>
