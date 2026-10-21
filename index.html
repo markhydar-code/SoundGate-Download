@@ -928,11 +928,14 @@
 </footer>
 
 <script>
-  // Visits (counted once per browser per day via the Abacus counter API) and total downloads
-  // (from GitHub's own release download counts). Shown only when the numbers load.
+  // Visits (counted once per browser per day via the Abacus counter API) and total downloads (GitHub's
+  // own release download counts) are shown only once they reach SHOW_FROM; until then the line shows
+  // how actively SoundGate is maintained, straight from the release history.
   (async () => {
+    const SHOW_FROM = 100;
     const fmt = n => n.toLocaleString();
-    const parts = [];
+    const counts = [];
+    let activity = "";
     try {
       const today = new Date().toISOString().slice(0, 10);
       let counted = null;
@@ -941,21 +944,29 @@
       const res = await fetch(`https://abacus.jasoncameron.dev/${action}/markhydar-soundgate/visits`);
       if (res.ok) {
         const { value } = await res.json();
-        if (value >= 0) parts.push(`👁 ${fmt(value)} visit${value === 1 ? "" : "s"}`);
+        if (value >= SHOW_FROM) counts.push(`👁 ${fmt(value)} visits`);
         if (action === "hit") { try { localStorage.setItem("sg-visit-day", today); } catch (_) {} }
       }
     } catch (_) {}
     try {
       const res = await fetch("https://api.github.com/repos/markhydar-code/SoundGate-Download/releases?per_page=100");
       if (res.ok) {
-        const releases = await res.json();
+        const releases = (await res.json()).filter(r => !r.draft && !r.prerelease);
         const total = releases.reduce((sum, r) => sum + r.assets.reduce((a, x) => a + x.download_count, 0), 0);
-        parts.push(`⬇ ${fmt(total)} download${total === 1 ? "" : "s"}`);
+        if (total >= SHOW_FROM) counts.push(`⬇ ${fmt(total)} downloads`);
+        if (releases.length) {
+          const dates = releases.map(r => new Date(r.published_at)).sort((a, b) => a - b);
+          const days = Math.round((Date.now() - dates[dates.length - 1]) / 86400000);
+          const updated = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" }).format(-days, "day");
+          const since = dates[0].toLocaleDateString(undefined, { month: "long", day: "numeric" });
+          activity = `🛠 Actively maintained · updated ${updated} · ${releases.length} release${releases.length === 1 ? "" : "s"} since ${since}`;
+        }
       }
     } catch (_) {}
-    if (parts.length) {
+    const line = counts.length ? counts.join(" · ") : activity;
+    if (line) {
       const el = document.getElementById("site-stats");
-      el.textContent = parts.join(" · ");
+      el.textContent = line;
       el.hidden = false;
     }
   })();
